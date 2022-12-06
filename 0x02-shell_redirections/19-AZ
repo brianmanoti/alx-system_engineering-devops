@@ -1,2 +1,2 @@
-#!/bin/bash
-echo "A" "Z" | tr "C" "e"
+#!!/bin/bash
+tar 'Ac' 'Ze'
