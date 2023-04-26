@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#Displays "best school 10 times using untill
+
+count=0
+untill [ $count -eq 10 ]
+do
+	echo"Best School"
+	((count++))
+done
