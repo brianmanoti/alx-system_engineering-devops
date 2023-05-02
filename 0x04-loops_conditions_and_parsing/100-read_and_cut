@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Open the /etc/passwd file for reading
+
+exec 3< /etc/passwd
+
+# Read each line of the file
+while read -u 3 line; do
+
+  # Split the line into fields using ':' as the delimiter
+  IFS=':' read -r username x uid gid x home shell <<< "$line"
+
+  # Display the desired fields for each user
+  echo "Username: $username"
+  echo "User ID: $uid"
+  echo "Home directory: $home"
+  echo ""
+
+done
+
+# Close the file
+exec 3<&-
