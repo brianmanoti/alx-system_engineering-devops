@@ -1,10 +1,5 @@
-#!/bin/bash/env ruby
-#Textme
-
-message = ARGV[0]
-regex = /^From: (\+?\w+).*To: (\+?\w+).*Flags: ([A-Z,]+)$/
-matches = message.match(regex)
-sender = matches[1]
-receiver = matches[2]
-flags = matches[3].split(',')
-puts "#{sender},#{receiver},#{flags}"
+#!/usr/bin/env ruby
+a = ARGV[0].scan(/(?<=from:)\+?\w+/).join
+b = ARGV[0].scan(/(?<=to:)\+?\w+/).join
+c = ARGV[0].scan(/(?<=flags:)[-:0-9]+/).join
+printf("%s,%s,%s\n", a, b, c)
