@@ -1,21 +1,31 @@
 #!/usr/bin/env bash
-# installs haproxy and configures it
-sudo apt -y update
-sudo apt -y install haproxy
+# This is a Bash that configure a New Server (Load Balancer) To meet a certain requirement as written below.
 
-echo "
-frontend web-frontend
-   bind *:80
-   mode http
-   default_backend web-backend
+sudo apt-get update -y
+sudo apt-get install haproxy -y
 
-backend web-backend
-   mode http
-   balance roundrobin
-   server 67342-web-01 52.91.135.115:80 check
-   server 67342-web-02 54.164.247.169:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
+# Configuration
+FILEPATH=/etc/haproxy/haproxy.cfg
 
-sudo chmod +x /etc/init.d/haproxy
+# Frontend Configuration
+FRONT="
+frontend my_frontend
+    bind *:80
+    mode http
+    default_backend my_backend"
+
+echo "$FRONT" | sudo tee -a "$FILEPATH"
+
+# Backend Configuration
+CONFIG="
+backend my_backend
+    balance roundrobin
+    server 201321-web-01 52.91.135.115:80 check
+    server 201321-web-02 54.164.247.169:80 check"
+
+echo "$CONFIG" | sudo tee -a "$FILEPATH"
+
+# Enabling haproxy to run on by default
+echo "ENDABLE=1" | sudo tee /etc/default/haproxy
+
 sudo service haproxy restart
-
